@@ -8,15 +8,12 @@ This repository details the complete lifecycle of the model: from deterministic 
 
 The engine operates in four distinct phases, transforming chaotic urban telemetry into automated traffic light orchestration.
 
-```text
 [PHASE 1: DIGITAL TWIN]      [PHASE 2: FORECASTER]       [PHASE 3: ORCHESTRATOR]      [PHASE 4: COMMAND]
 Raw S3 Overture Maps ──┐
                        ├─► PyTorch Transformer ──► PPO RL Agent (Gymnasium) ──► PyDeck Live Map
 Local UTD19 Sensors  ──┘   (Zero-Shot Testing)     (Dynamic Phase Switching)    (Streamlit UI)
-```
 
 ---
-
 ## 🔬 Core Algorithmic Challenges Solved
 
 ### 1. The Coordinate Misalignment Problem
