@@ -1,0 +1,11 @@
+city: "Zurich"
+dataset:
+  overture_bbox: [8.4480, 47.3202, 8.6254, 47.4346]
+  utd19_path: "data/raw/zurich_utd19/"
+processing:
+  threads: 32
+  spatial_strategies: ["multimodal"]
+  max_tolerance_meters: 50
+output:
+  format: "parquet"
+  path: "data/processed/zurich_universal_twin.parquet"

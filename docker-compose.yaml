@@ -1,0 +1,10 @@
+services:
+  data_pipeline:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./src:/app/src
+      - ./configs:/app/configs
+    environment:
+      # Ensures our explainable logging prints instantly to the terminal
+      - PYTHONUNBUFFERED=1

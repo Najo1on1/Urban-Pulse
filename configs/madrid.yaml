@@ -1,0 +1,11 @@
+city: "Madrid"
+dataset:
+  overture_bbox: [-3.7492, 40.3323, -3.5286, 40.5104]
+  utd19_path: "data/raw/madrid_utd19/"
+processing:
+  threads: 32
+  spatial_strategies: []
+  max_tolerance_meters: 50
+output:
+  format: "parquet"
+  path: "data/processed/madrid_universal_twin.parquet"

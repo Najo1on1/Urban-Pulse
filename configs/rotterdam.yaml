@@ -1,0 +1,11 @@
+city: "Rotterdam"
+dataset:
+  overture_bbox: [4.3875, 51.8700, 4.5690, 51.9650]
+  utd19_path: "data/raw/rotterdam_utd19/"
+processing:
+  threads: 32
+  spatial_strategies: ["multimodal"]
+  max_tolerance_meters: 50
+output:
+  format: "parquet"
+  path: "data/processed/rotterdam_universal_twin.parquet"

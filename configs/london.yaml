@@ -1,0 +1,12 @@
+city: "London"
+dataset:
+  overture_bbox: [-0.510, 51.286, 0.334, 51.691]
+  utd19_path: "data/raw/london_utd19/"
+processing:
+  threads: 32
+  # We tell the engine to use both drift and multimodal logic for London
+  spatial_strategies: ["drift_handler", "multimodal"]
+  max_tolerance_meters: 50
+output:
+  format: "parquet"
+  path: "data/processed/london_universal_twin.parquet"

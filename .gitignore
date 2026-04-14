@@ -1,0 +1,29 @@
+# Environments
+pulse_env/
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Data (Crucial to prevent GitHub size limits!)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Deep Learning Checkpoints & Logs (Massive Files)
+lightning_logs/
+*.ckpt
+
+# Local config, cache, & OS files
+.DS_Store
+.env
+.pytest_cache/
+.streamlit/
+*.log
+
+# IDE settings
+.vscode/
+.idea/
