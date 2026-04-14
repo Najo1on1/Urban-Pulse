@@ -55,10 +55,7 @@ Training complex AI locally requires strict hardware governance. This pipeline i
 
 ## 🚀 Quick Start
 **1. Generate the Digital Twin**
-```bash
 docker-compose run data_pipeline python -m src.engine --config configs/london.yaml
-```
+
 **2. Launch the RL Command Center**
-```bash
 streamlit run src/dashboard/app.py
-```
