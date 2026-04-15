@@ -32,3 +32,65 @@ graph LR
     C -->|Universal Matrix| D
     D -->|Predicted Traffic| E
     E -->|Light Phases| F
+```
+
+---
+
+## 🔬 Core Algorithmic Challenges Solved
+
+### 1. The Coordinate Misalignment Problem
+Raw urban telemetry (UTD19) suffers from spatial blindness. To create a ground-truth dataset, this engine utilizes a deterministic spatial-join pipeline:
+* **The Universal Twin Matrix:** A high-performance **DuckDB** and **GeoPandas** pipeline that snaps sparse GPS coordinates to a dense Overture Maps road skeleton using a 50m tolerance threshold (projected in EPSG:32630).
+* **Multi-Modal & 3D Filtering:** Implemented programmatic YAML strategies to automatically filter out tram/bus noise and resolve Z-axis ambiguity for bridges and tunnels (crucial for Lucerne and Zurich datasets).
+
+### 2. Multi-City Generalization & Zero-Shot Inference
+The goal was to train a model that understands the generalized "physics" of traffic, rather than just memorizing one specific city's map.
+* **Architecture:** A custom **PyTorch Transformer** forecasting a 1-hour horizon based on a 12-hour historical sliding window.
+* **The Training Matrix:** Trained concurrently on 14 days of engineered data from Madrid, Zurich, and Rotterdam utilizing a customized `ConcatDataset` DataModule.
+* **Zero-Shot Validation:** Successfully achieved convergence via Early Stopping (preventing overfitting) and deployed the model against **London** (an unseen testbed), mathematically proving generalized spatial-temporal pattern recognition with a highly competitive Mean Squared Error (MSE).
+
+### 3. Gridlock Prevention via Reinforcement Learning
+To move from passive prediction to active mitigation, a custom **Gymnasium** environment was built to simulate a complex, 20-node (4x5) city district.
+* **The PPO Agent:** Trained a Proximal Policy Optimization (`stable-baselines3`) algorithm to dynamically control 20 intersection light phases.
+* **Reward Engineering:** The environment utilizes a strict reward function (+1 per moving vehicle, -0.5 per queued vehicle) with a massive terminal penalty (-1000) for triggering systemic gridlock, forcing the agent to learn complex queue-bleeding strategies.
+* **Vectorized Training:** Accelerated convergence by deploying `SubprocVecEnv` to train the agent across 10 parallel dimensions simultaneously.
+
+### 4. The Translation Layer
+To validate the RL agent's logic visually, the system features a **Streamlit** Command Center. It utilizes **PyDeck (WebGL)** to translate the agent's raw mathematical 1D output array into a live, geographic visualization of traffic auras and light phases across a map of Central London.
+
+---
+
+## ⚡ Hardware & MLOps Optimizations
+Training complex AI locally requires strict hardware governance. This pipeline incorporates several advanced optimizations:
+* **Mixed Precision Training:** Utilized 16-bit Automatic Mixed Precision (AMP) in PyTorch Lightning to maximize VRAM efficiency and unlock the Tensor Cores on an RTX 4000-series GPU.
+* **Host OS Sandboxing:** Engineered a `.wslconfig` steel-cage memory limit (80GB RAM, 12 Cores) to prevent RL thread starvation and thermal throttling on a high-density Ryzen 9 7950X3D architecture.
+* **Device Targeting:** Dynamically shifted PPO agent training to the CPU (avoiding GPU memory transfer latency for tabular MLP policies) to achieve >3,000 frames per second during simulation rollouts.
+
+---
+
+## 🛠️ Tech Stack 
+* **Core Languages:** Python 3.12
+* **Data Engineering:** DuckDB, GeoPandas, Shapely, PyArrow
+* **Machine Learning:** PyTorch, PyTorch Lightning, Stable-Baselines3 (PPO), Gymnasium
+* **Frontend:** Streamlit, PyDeck (Deck.gl), Pandas
+* **DevOps & Infrastructure:** Docker, WSL2 Configuration Management (Resource Sandboxing)
+
+---
+
+## 🚀 Quick Start
+
+**1. Clone the repository**
+```bash
+git clone git@github.com:Najo1on1/Urban-Pulse.git
+cd Urban-Pulse
+```
+
+**2. Generate the Digital Twin**
+```bash
+docker-compose run data_pipeline python -m src.engine --config configs/london.yaml
+```
+
+**3. Launch the RL Command Center**
+```bash
+streamlit run src/dashboard/app.py
+```
